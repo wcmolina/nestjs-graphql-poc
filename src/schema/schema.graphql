@@ -1,0 +1,11 @@
+# Root types
+type Query {
+  _empty: String
+}
+
+type Mutation {
+  _empty: String
+}
+
+# Custom scalars
+scalar DateTime

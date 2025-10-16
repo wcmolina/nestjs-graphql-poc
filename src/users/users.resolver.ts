@@ -1,40 +1,68 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { User } from './entities/user.entity';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { User as UserEntity } from './entities/user.entity';
+import { Post as PostEntity } from '../posts/entities/post.entity';
+import { CreateUserInput, UpdateUserInput } from '../graphql';
 
-@Resolver(() => User)
+@Resolver('User')
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation(() => User)
-  async createUser(
-    @Args('input') createUserInput: CreateUserInput,
-  ): Promise<User> {
-    return this.usersService.create(createUserInput);
+  @Mutation('createUser')
+  async createUser(@Args('input') input: CreateUserInput): Promise<UserEntity> {
+    // Convert GraphQL input (null) to DTO format (undefined)
+    const dto = {
+      name: input.name,
+      email: input.email,
+      bio: input.bio ?? undefined,
+    };
+    return this.usersService.create(dto);
   }
 
-  @Query(() => [User], { name: 'users' })
-  async findAll(): Promise<User[]> {
+  @Query('users')
+  async users(): Promise<UserEntity[]> {
     return this.usersService.findAll();
   }
 
-  @Query(() => User, { name: 'user' })
-  async findOne(@Args('id', { type: () => Int }) id: number): Promise<User> {
-    return this.usersService.findOne(id);
+  @Query('user')
+  async user(@Args('id') id: number): Promise<UserEntity | null> {
+    try {
+      return await this.usersService.findOne(id);
+    } catch {
+      return null;
+    }
   }
 
-  @Mutation(() => User)
+  @Mutation('updateUser')
   async updateUser(
-    @Args('id', { type: () => Int }) id: number,
-    @Args('input') updateUserInput: UpdateUserInput,
-  ): Promise<User> {
-    return this.usersService.update(id, updateUserInput);
+    @Args('id') id: number,
+    @Args('input') input: UpdateUserInput,
+  ): Promise<UserEntity> {
+    // Convert GraphQL input (null) to DTO format (undefined)
+    const dto = {
+      name: input.name ?? undefined,
+      email: input.email ?? undefined,
+      bio: input.bio ?? undefined,
+    };
+    return this.usersService.update(id, dto);
   }
 
-  @Mutation(() => User)
-  async removeUser(@Args('id', { type: () => Int }) id: number): Promise<User> {
+  @Mutation('removeUser')
+  async removeUser(@Args('id') id: number): Promise<UserEntity> {
     return this.usersService.remove(id);
+  }
+
+  @ResolveField('posts')
+  async posts(@Parent() user: UserEntity): Promise<PostEntity[]> {
+    // Load the collection if not already loaded
+    await user.posts.loadItems();
+    return user.posts.getItems();
   }
 }

@@ -46,7 +46,10 @@ lerna-debug.log*
 .temp
 .tmp
 
-# GraphQL generated schema
+# GraphQL generated types (schema-first)
+src/graphql.ts
+
+# GraphQL generated schema (code-first - not used in this branch)
 src/schema.gql
 
 # Runtime data
