@@ -19,7 +19,9 @@ import config from './mikro-orm.config';
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class',
       },
-      playground: true,
+      // Apollo Sandbox is enabled by default in development
+      // Set introspection: false in production for security
+      introspection: true,
     }),
     UsersModule,
     PostsModule,
