@@ -5,6 +5,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
+import { PostsModule } from './posts/posts.module';
 import config from './mikro-orm.config';
 
 @Module({
@@ -16,6 +18,8 @@ import config from './mikro-orm.config';
       sortSchema: true,
       playground: true,
     }),
+    UsersModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
