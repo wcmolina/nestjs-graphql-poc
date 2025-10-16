@@ -9,7 +9,9 @@ export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
 
   @Mutation(() => Post)
-  async createPost(@Args('input') createPostInput: CreatePostInput): Promise<Post> {
+  async createPost(
+    @Args('input') createPostInput: CreatePostInput,
+  ): Promise<Post> {
     return this.postsService.create(createPostInput);
   }
 

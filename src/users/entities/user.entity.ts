@@ -1,4 +1,11 @@
-import { Entity, PrimaryKey, Property, Collection, OneToMany, Opt } from '@mikro-orm/core';
+import {
+  Entity,
+  PrimaryKey,
+  Property,
+  Collection,
+  OneToMany,
+  Opt,
+} from '@mikro-orm/core';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Post } from '../../posts/entities/post.entity';
 
@@ -22,7 +29,7 @@ export class User {
   bio?: string;
 
   @Field(() => [Post])
-  @OneToMany(() => Post, post => post.author)
+  @OneToMany(() => Post, (post) => post.author)
   posts = new Collection<Post>(this);
 
   @Field(() => Date)

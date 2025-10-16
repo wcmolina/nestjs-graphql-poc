@@ -14,7 +14,9 @@ export class PostsService {
 
     const author = await this.em.findOne(User, { id: validatedData.authorId });
     if (!author) {
-      throw new NotFoundException(`User with ID ${validatedData.authorId} not found`);
+      throw new NotFoundException(
+        `User with ID ${validatedData.authorId} not found`,
+      );
     }
 
     const post = this.em.create(Post, {
