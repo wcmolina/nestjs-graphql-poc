@@ -2,13 +2,8 @@
 schema:
   - src/schema/**/*.graphql
 
-# Documents (queries/mutations in your codebase)
-documents:
-  - src/**/*.{ts,tsx}
-
-# Extensions
+# Endpoint configuration (for testing in IDE)
 extensions:
-  # Endpoint configuration (for testing in IDE)
   endpoints:
     default:
       url: http://localhost:3000/graphql
