@@ -17,7 +17,7 @@ export class Post {
   @Property({ type: 'text' })
   content!: string;
 
-  @Field({ nullable: true })
+  @Field(() => Boolean, { nullable: true })
   @Property({ default: false })
   published: boolean & Opt = false;
 
@@ -25,11 +25,11 @@ export class Post {
   @ManyToOne(() => User)
   author!: User;
 
-  @Field()
+  @Field(() => Date)
   @Property({ onCreate: () => new Date() })
   createdAt: Date & Opt = new Date();
 
-  @Field()
+  @Field(() => Date)
   @Property({ onCreate: () => new Date(), onUpdate: () => new Date() })
   updatedAt: Date & Opt = new Date();
 }

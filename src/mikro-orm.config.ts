@@ -12,6 +12,11 @@ const config: Options = {
   entitiesTs: ['src/**/*.entity.ts'],
   debug: process.env.NODE_ENV !== 'production',
   allowGlobalContext: true,
+  ensureDatabase: true,
+  schemaGenerator: {
+    disableForeignKeys: false,
+    createForeignKeyConstraints: true,
+  },
 };
 
 export default config;

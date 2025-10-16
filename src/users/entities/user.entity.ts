@@ -25,11 +25,11 @@ export class User {
   @OneToMany(() => Post, post => post.author)
   posts = new Collection<Post>(this);
 
-  @Field()
+  @Field(() => Date)
   @Property({ onCreate: () => new Date() })
   createdAt: Date & Opt = new Date();
 
-  @Field()
+  @Field(() => Date)
   @Property({ onCreate: () => new Date(), onUpdate: () => new Date() })
   updatedAt: Date & Opt = new Date();
 }
