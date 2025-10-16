@@ -46,6 +46,9 @@ lerna-debug.log*
 .temp
 .tmp
 
+# GraphQL generated schema
+src/schema.gql
+
 # Runtime data
 pids
 *.pid
